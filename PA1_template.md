@@ -1,13 +1,9 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
----
+# Reproducible Research: Peer Assessment 1
 
 
 ## Loading and preprocessing the data
-```{r}
+
+```r
   ## Read all data
   dat <- read.csv("activity.csv")
   
@@ -21,27 +17,51 @@ output:
          col = "red")
 ```
 
+![](PA1_template_files/figure-html/unnamed-chunk-1-1.png)
+
 ## What is mean total number of steps taken per day?
-```{r}
+
+```r
   ## Mean and median of steps per day
   mean(sums$steps)
+```
+
+```
+## [1] 10766.19
+```
+
+```r
   median(sums$steps)
 ```
 
+```
+## [1] 10765
+```
+
 ## What is the average daily activity pattern?
-```{r}
+
+```r
   ## Compute the mean for each time period interval
   intmeans <- aggregate(steps ~ interval, data = dat, mean)
   
   ## Plot of the interval average across all days
   plot(intmeans$interval, intmeans$steps, type = "l", xlab = "Interval", ylab = "Average Over All Days")
-  
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-3-1.png)
+
+```r
   ## Find the interval with the max value
   intmeans[which(intmeans$steps==max(intmeans$steps)),1]
 ```
 
+```
+## [1] 835
+```
+
 ## Imputing missing values
-```{r}
+
+```r
   ## Count the number of missing values
   missval <- sum(is.na(dat$steps))
   
@@ -61,14 +81,30 @@ output:
        main="Histogram of Steps Per Day", 
        xlab = "Steps Per Day",
        col = "red")
-  
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-4-1.png)
+
+```r
   ## Mean and median of steps per day - new data
   mean(sumsnewdat$steps)
+```
+
+```
+## [1] 10766.19
+```
+
+```r
   median(sumsnewdat$steps)
-```  
+```
+
+```
+## [1] 10766.19
+```
 
 ## Are there differences in activity patterns between weekdays and weekends?
-```{r}
+
+```r
   ## Add day and timeofweek to newdat
   newdat$day <- weekdays(as.Date(newdat$date))
   newdat$timeofweek <- ifelse((newdat$day == "Sunday" | newdat$day == "Saturday"), "weekend", "weekday")
@@ -81,4 +117,6 @@ output:
   plot(intmeanweekday$interval, intmeanweekday$steps, type = "l", xlab = "Interval", ylab = "Avg: Weekdays")
   plot(intmeanweekend$interval, intmeanweekend$steps, type = "l", xlab = "Interval", ylab = "Avg: Weekends")
 ```
+
+![](PA1_template_files/figure-html/unnamed-chunk-5-1.png)
 
